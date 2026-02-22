@@ -18,7 +18,7 @@ face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_con
 #Setup Video Sources
 video_path = "1.mov"
 video_cap = cv2.VideoCapture(video_path)
-cap = cv2.VideoCapture(1) # Your C270 Webcam
+cap = cv2.VideoCapture(1)
 
 video_window_name = "GET BACK TO WORK"
 window_open = False
@@ -46,12 +46,12 @@ while cap.isOpened():
             video_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
             ret, v_frame = video_cap.read()
         
-        if ret:
+        if ret and v_frame is not None:
             cv2.imshow(video_window_name, v_frame)
             window_open = True
         
         # --- Handle Audio ---
-        if not mixer.music.get_busy(): # If music isn't already playing
+        if os.path.exists(audio_path) and not mixer.music.get_busy(): # If music isn't already playing
             mixer.music.play(-1)      # Loop indefinitely while looking away
     else:
         # Stop everything when focused
